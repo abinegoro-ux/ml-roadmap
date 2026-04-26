@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap: Gold Farmer → ML Engineer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f3;
+    --text: #1a1a18;
+    --text2: #6b6b65;
+    --text3: #9c9a92;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --text: #e8e6de;
+      --text2: #9c9a92;
+      --text3: #6b6b65;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+    }
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 40px; }
+
+  .header-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: var(--bg2);
+    border: 0.5px solid var(--border2);
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin-bottom: 14px;
+  }
+
+  .header h1 { font-size: 28px; font-weight: 600; line-height: 1.3; color: var(--text); }
+  .header p { font-size: 14px; color: var(--text2); margin-top: 8px; }
+
+  .gaming-edge {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid #3B8BD4;
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin: 0 0 36px;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .gaming-edge strong { font-weight: 600; color: var(--text); display: block; margin-bottom: 6px; font-size: 14px; }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 90px 1px 1fr;
+    gap: 0 20px;
+    margin-bottom: 4px;
+  }
+
+  .phase-time { text-align: right; padding-top: 20px; }
+  .phase-time .months { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text3); display: block; line-height: 1.5; }
+
+  .phase-spine { display: flex; flex-direction: column; align-items: center; }
+
+  .phase-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid currentColor;
+    background: var(--bg);
+    margin-top: 24px; flex-shrink: 0; z-index: 1;
+  }
+
+  .phase-line { flex: 1; width: 1px; background: var(--border); margin-top: 4px; }
+
+  .phase-card {
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    background: var(--bg);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .phase-card:hover { border-color: var(--border2); }
+  .phase-card.active { border-color: var(--border2); }
+
+  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+
+  .phase-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0;
+  }
+
+  .phase-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .phase-desc { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 10px; }
+
+  .progress-bar-wrap { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 6px; margin-bottom: 10px; }
+  .progress-bar { height: 100%; border-radius: 2px; }
+
+  .skills-grid { display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .phase-card.active .skills-grid { display: grid; }
+
+  .skill-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--text2);
+    background: var(--bg2); padding: 10px 12px; border-radius: 8px; line-height: 1.5;
+  }
+
+  .skill-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .skill-name { font-weight: 600; color: var(--text); display: block; font-size: 12px; }
+  .skill-note { font-size: 11px; color: var(--text3); margin-top: 2px; display: block; }
+
+  .toggle-hint { font-size: 11px; color: var(--text3); margin-top: 6px; display: flex; align-items: center; gap: 5px; user-select: none; }
+  .toggle-hint svg { transition: transform 0.2s; }
+  .phase-card.active .toggle-hint svg { transform: rotate(180deg); }
+
+  .p1 .phase-dot { color: #1D9E75; }
+  .p1 .phase-badge { background: #E1F5EE; color: #0F6E56; }
+  .p1 .progress-bar { background: #1D9E75; }
+
+  .p2 .phase-dot { color: #534AB7; }
+  .p2 .phase-badge { background: #EEEDFE; color: #3C3489; }
+  .p2 .progress-bar { background: #534AB7; }
+
+  .p3 .phase-dot { color: #BA7517; }
+  .p3 .phase-badge { background: #FAEEDA; color: #633806; }
+  .p3 .progress-bar { background: #BA7517; }
+
+  .p4 .phase-dot { color: #D85A30; }
+  .p4 .phase-badge { background: #FAECE7; color: #712B13; }
+  .p4 .progress-bar { background: #D85A30; }
+
+  .p5 .phase-dot { color: #185FA5; }
+  .p5 .phase-badge { background: #E6F1FB; color: #0C447C; }
+  .p5 .progress-bar { background: #185FA5; }
+
+  @media (prefers-color-scheme: dark) {
+    .p1 .phase-badge { background: #04342C; color: #9FE1CB; }
+    .p2 .phase-badge { background: #26215C; color: #CECBF6; }
+    .p3 .phase-badge { background: #412402; color: #FAC775; }
+    .p4 .phase-badge { background: #4A1B0C; color: #F5C4B3; }
+    .p5 .phase-badge { background: #042C53; color: #B5D4F4; }
+  }
+
+  .bottom-note {
+    margin-top: 24px; padding: 16px 18px; border-radius: 10px;
+    background: var(--bg2); border: 0.5px solid var(--border);
+    font-size: 13px; color: var(--text2); line-height: 1.7; text-align: center;
+  }
+
+  .bottom-note strong { color: var(--text); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .phase { grid-template-columns: 60px 1px 1fr; gap: 0 12px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    body { padding: 32px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Roadmap: Gold Farmer → ML Engineer</div>
+    <h1>18–36 Bulan Realistis</h1>
+    <p>Klik tiap fase untuk lihat detail skill &amp; resource</p>
+  </div>
+
+  <div class="gaming-edge">
+    <strong>🎮 Keunggulan lo sebagai ex-Gold Farmer</strong>
+    Lo udah punya domain expertise yang jarang: game economy, sistem optimasi, data-driven decision making. Target awal: ML applied ke gaming (bot detection, AH price prediction, economy balancing). Differentiator nyata di market.
+  </div>
+
+  <div class="timeline">
+
+    <div class="phase p1">
+      <div class="phase-time"><span class="months">Bulan<br>1–6</span></div>
+      <div class="phase-spine"><div class="phase-dot"></div><div class="phase-line"></div></div>
+      <div>
+        <div class="phase-card" onclick="toggle(this)">
+          <div class="phase-header">
+            <span class="phase-badge">Phase 1</span>
+            <span class="phase-title">Pondasi — Math &amp; Python</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%"></div></div>
+          <p class="phase-desc">Jangan skip ini. Banyak orang loncat ke Keras/PyTorch langsung, stuck pas interview karena ga ngerti fundamentalnya.</p>
+          <div class="toggle-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Klik untuk detail
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item"><span class="skill-icon">📐</span><div><span class="skill-name">Linear Algebra</span><span class="skill-note">3Blue1Brown — gratis, visual</span></div></div>
+            <div class="skill-item"><span class="skill-icon">📊</span><div><span class="skill-name">Statistics Dasar</span><span class="skill-note">Khan Academy — dari awal</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🐍</span><div><span class="skill-name">Python Solid</span><span class="skill-note">Numpy, Pandas, Matplotlib</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🚀</span><div><span class="skill-name">fast.ai</span><span class="skill-note">Practical-first, gratis</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase p2">
+      <div class="phase-time"><span class="months">Bulan<br>6–15</span></div>
+      <div class="phase-spine"><div class="phase-dot"></div><div class="phase-line"></div></div>
+      <div>
+        <div class="phase-card" onclick="toggle(this)">
+          <div class="phase-header">
+            <span class="phase-badge">Phase 2</span>
+            <span class="phase-title">Core ML — Algoritma &amp; Praktik</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:75%"></div></div>
+          <p class="phase-desc">Mulai Kaggle dari sekarang. Ini yang membangun portfolio nyata — bukan sertifikat online.</p>
+          <div class="toggle-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Klik untuk detail
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item"><span class="skill-icon">🎓</span><div><span class="skill-name">Andrew Ng ML Spec</span><span class="skill-note">Coursera — audit gratis</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🏆</span><div><span class="skill-name">Kaggle Competitions</span><span class="skill-note">Mulai dari Titanic dulu</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🔍</span><div><span class="skill-name">Anomaly Detection</span><span class="skill-note">Relevan ke anti-bot gaming</span></div></div>
+            <div class="skill-item"><span class="skill-icon">💡</span><div><span class="skill-name">Recommendation System</span><span class="skill-note">Relevan ke AH pricing</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase p3">
+      <div class="phase-time"><span class="months">Bulan<br>15–24</span></div>
+      <div class="phase-spine"><div class="phase-dot"></div><div class="phase-line"></div></div>
+      <div>
+        <div class="phase-card" onclick="toggle(this)">
+          <div class="phase-header">
+            <span class="phase-badge">Phase 3</span>
+            <span class="phase-title">Portfolio — Gaming ML Niche</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:50%"></div></div>
+          <p class="phase-desc">Ini differentiator lo. Buat proyek yang nyambung ke background WoW/game economy — nobody else has this.</p>
+          <div class="toggle-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Klik untuk detail
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item"><span class="skill-icon">🕹️</span><div><span class="skill-name">AH Price Predictor</span><span class="skill-note">Time series + WoW economy data</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🤖</span><div><span class="skill-name">Bot Behavior Detector</span><span class="skill-note">Anomaly detection project</span></div></div>
+            <div class="skill-item"><span class="skill-icon">✍️</span><div><span class="skill-name">Nulis di Medium</span><span class="skill-note">Dokumentasi learning journey</span></div></div>
+            <div class="skill-item"><span class="skill-icon">💻</span><div><span class="skill-name">GitHub Aktif</span><span class="skill-note">Minimum 3 proyek selesai</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase p4">
+      <div class="phase-time"><span class="months">Bulan<br>24–36</span></div>
+      <div class="phase-spine"><div class="phase-dot"></div><div class="phase-line"></div></div>
+      <div>
+        <div class="phase-card" onclick="toggle(this)">
+          <div class="phase-header">
+            <span class="phase-badge">Phase 4</span>
+            <span class="phase-title">Market Entry — Remote Global</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:25%"></div></div>
+          <p class="phase-desc">Target remote, bukan lokal. Tanpa gelar, filter ijazah di pasar Indo masih kuat. Pasar global nilai skill over degree.</p>
+          <div class="toggle-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Klik untuk detail
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item"><span class="skill-icon">🌐</span><div><span class="skill-name">Arc.dev / Toptal</span><span class="skill-note">Remote ML engineer positions</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🔗</span><div><span class="skill-name">LinkedIn (Remote filter)</span><span class="skill-note">Junior ML / Data Scientist</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🎮</span><div><span class="skill-name">Game Studios</span><span class="skill-note">Riot, Blizzard, studio lokal</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🏗️</span><div><span class="skill-name">Build ML Product</span><span class="skill-note">Monetize langsung — DNA lo</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase p5">
+      <div class="phase-time"><span class="months">Paralel</span></div>
+      <div class="phase-spine"><div class="phase-dot"></div></div>
+      <div>
+        <div class="phase-card" onclick="toggle(this)">
+          <div class="phase-header">
+            <span class="phase-badge">Bonus</span>
+            <span class="phase-title">Shortcut — Pakai ML buat Scale Bisnis Lo</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%"></div></div>
+          <p class="phase-desc">Opsi paling efisien untuk DNA entrepreneur lo: bukan jadi engineer orang lain, tapi pakai ML untuk scale bisnis sendiri.</p>
+          <div class="toggle-hint">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Klik untuk detail
+          </div>
+          <div class="skills-grid">
+            <div class="skill-item"><span class="skill-icon">📈</span><div><span class="skill-name">AH Pricing Otomatis</span><span class="skill-note">Predict demand item WoW</span></div></div>
+            <div class="skill-item"><span class="skill-icon">⚙️</span><div><span class="skill-name">Farming Route Optimizer</span><span class="skill-note">ML buat efisiensi gold/jam</span></div></div>
+            <div class="skill-item"><span class="skill-icon">🛡️</span><div><span class="skill-name">Account Risk Scoring</span><span class="skill-note">Prediksi ban sebelum kejadian</span></div></div>
+            <div class="skill-item"><span class="skill-icon">💰</span><div><span class="skill-name">G2G Price Intelligence</span><span class="skill-note">Scrape + predict optimal price</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-note">
+    <strong>Reality check:</strong> Ini bukan bootcamp 3 bulan. Tapi lo punya sesuatu yang kebanyakan orang ga punya — sudah terbiasa berpikir dalam sistem dan optimasi. Itu modal utama ML engineer yang sebenarnya.
+  </div>
+
+</div>
+<script>
+  function toggle(card) {
+    const isActive = card.classList.contains('active');
+    document.querySelectorAll('.phase-card').forEach(c => c.classList.remove('active'));
+    if (!isActive) card.classList.add('active');
+  }
+</script>
+</body>
+</html>
